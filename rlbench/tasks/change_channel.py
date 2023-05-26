@@ -16,8 +16,8 @@ class ChangeChannel(Task):
         self._remote = Shape('tv_remote')
         self.register_graspable_objects([self._remote])
         self._joint_conditions = [
-            JointCondition(Joint('target_button_joint1'), 0.003),
-            JointCondition(Joint('target_button_joint2'), 0.003)
+            JointCondition(Joint('target_button_joint1'), 0.0015),
+            JointCondition(Joint('target_button_joint2'), 0.0015)
         ]
         self._remote_conditions = [
             DetectedCondition(Dummy('tv_remote_top'),
@@ -35,7 +35,7 @@ class ChangeChannel(Task):
     def init_episode(self, index: int) -> List[str]:
         self.register_success_conditions(
             [self._joint_conditions[index]] + self._remote_conditions)
-        x, y, _ = self._target_buttons[index % 3].get_position()
+        x, y, _ = self._target_buttons[index % 2].get_position()
         self._w6.set_position([x, y, self._w6z])
         self._spawn_boundary.clear()
         self._spawn_boundary.sample(self._remote)
@@ -43,16 +43,16 @@ class ChangeChannel(Task):
         btn = ['plus', 'minus']
         chnl = ['up', 'minus']
         return [
-            'turn the channel %s' % chnl[index - 1],
-            'change the television channel %s' % chnl[index - 1],
+            'turn the channel %s' % chnl[index],
+            'change the television channel %s' % chnl[index],
             'point the remote at the tv and press the %s button to turn '
-            'the channel %s' % (btn[index - 1], chnl[index - 1]),
+            'the channel %s' % (btn[index], chnl[index]),
             'using the tv remote, ensure it is facing the television and '
             'press the %s button to increment the channel %s by one'
-            % (btn[index - 1], chnl[index - 1]),
+            % (btn[index], chnl[index]),
             'find the %s button on the remote, rotate the remote such that'
             ' it is pointed at the tv, then press the button to change '
-            'the channel %s' % (chnl[index - 1], btn[index - 1])]
+            'the channel %s' % (chnl[index], btn[index])]
 
     def variation_count(self) -> int:
         return 2

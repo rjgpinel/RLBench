@@ -21,7 +21,7 @@ class OpenDrawer(Task):
         self._waypoint1.set_position(self._anchors[index].get_position())
         self.register_success_conditions(
             [JointCondition(self._joints[index], 0.15)])
-        return ['open %s drawer' % option,
+        return ['open the %s drawer' % option,
                 'grip the %s handle and pull the %s drawer open' % (
                     option, option),
                 'slide the %s drawer open' % option]

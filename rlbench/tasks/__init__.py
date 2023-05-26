@@ -111,6 +111,15 @@ from rlbench.tasks.water_plants import WaterPlants
 from rlbench.tasks.weighing_scales import WeighingScales
 from rlbench.tasks.wipe_desk import WipeDesk
 
+# new tasks added in the PerAct paper
+from rlbench.tasks.put_rubbish_in_color_bin import PutRubbishInColorBin
+from rlbench.tasks.place_wine_at_rack_location import PlaceWineAtRackLocation
+from rlbench.tasks.slide_block_to_color_target import SlideBlockToColorTarget
+from rlbench.tasks.sweep_to_dustpan_of_size import SweepToDustpanOfSize
+from rlbench.tasks.put_books_at_shelf_location import PutBooksAtShelfLocation
+from rlbench.tasks.set_clock_to_time import SetClockToTime
+
+
 FS10_V1 = {
     'train': [
         ReachTarget,
