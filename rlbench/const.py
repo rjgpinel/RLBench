@@ -42,3 +42,6 @@ SUPPORTED_ROBOTS = {
     'sawyer': (Sawyer, BaxterGripper, 7),
     'ur5': (UR5, Robotiq85Gripper, 6),
 }
+
+state_size = 60
+shape_size = 10
