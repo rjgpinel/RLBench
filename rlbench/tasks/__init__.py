@@ -110,6 +110,7 @@ from rlbench.tasks.unplug_charger import UnplugCharger
 from rlbench.tasks.water_plants import WaterPlants
 from rlbench.tasks.weighing_scales import WeighingScales
 from rlbench.tasks.wipe_desk import WipeDesk
+from rlbench.tasks.tower3 import Tower3
 
 FS10_V1 = {
     'train': [
