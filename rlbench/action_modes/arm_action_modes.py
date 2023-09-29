@@ -246,17 +246,37 @@ class EndEffectorPoseViaPlanning(ArmActionMode):
                 [s.set_collidable(False) for s in colliding_shapes]
 
         try:
-            path = scene.robot.arm.get_path(
-                action[:3],
-                quaternion=action[3:],
-                ignore_collisions=not self._collision_checking,
-                relative_to=relative_to,
-                trials=100,
-                max_configs=10,
-                max_time_ms=10,
-                trials_per_goal=5,
-                algorithm=Algos.RRTConnect
-            )
+            # try once with collision checking (if ignore_collisions is true)
+            try:
+                path = scene.robot.arm.get_path(
+                    action[:3],
+                    quaternion=action[3:],
+                    ignore_collisions=not self._collision_checking,
+                    relative_to=relative_to,
+                    trials=100,
+                    max_configs=10,
+                    max_time_ms=10,
+                    trials_per_goal=5,
+                    algorithm=Algos.RRTConnect
+                )
+            except ConfigurationPathError as e:
+                if not self._collision_checking:
+                    raise InvalidActionError(
+                        'A path could not be found. Most likely due to the target '
+                        'being inaccessible or a collison was detected.') from e
+                else:
+                    # try once more with collision checking disabled
+                    path = scene.robot.arm.get_path(
+                        action[:3],
+                        quaternion=action[3:],
+                        ignore_collisions=True,
+                        relative_to=relative_to,
+                        trials=100,
+                        max_configs=10,
+                        max_time_ms=10,
+                        trials_per_goal=5,
+                        algorithm=Algos.RRTConnect
+                    )
             [s.set_collidable(True) for s in colliding_shapes]
         except ConfigurationPathError as e:
             [s.set_collidable(True) for s in colliding_shapes]

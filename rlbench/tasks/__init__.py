@@ -112,6 +112,32 @@ from rlbench.tasks.weighing_scales import WeighingScales
 from rlbench.tasks.wipe_desk import WipeDesk
 from rlbench.tasks.tower3 import Tower3
 
+# new tasks added in the PerAct paper
+# from rlbench.tasks.put_rubbish_in_color_bin import PutRubbishInColorBin
+from rlbench.tasks.place_wine_at_rack_location_peract import PlaceWineAtRackLocationPeract
+from rlbench.tasks.slide_block_to_color_target_peract import SlideBlockToColorTargetPeract 
+from rlbench.tasks.sweep_to_dustpan_of_size_peract import SweepToDustpanOfSizePeract
+# from rlbench.tasks.put_books_at_shelf_location import PutBooksAtShelfLocation
+# from rlbench.tasks.set_clock_to_time import SetClockToTime
+
+# old tasks adapted in PerAct
+from rlbench.tasks.open_drawer_peract import OpenDrawerPeract
+from rlbench.tasks.meat_off_grill_peract import MeatOffGrillPeract
+from rlbench.tasks.turn_tap_peract import TurnTapPeract
+from rlbench.tasks.put_item_in_drawer_peract import PutItemInDrawerPeract
+from rlbench.tasks.close_jar_peract import CloseJarPeract
+from rlbench.tasks.reach_and_drag_peract import ReachAndDragPeract
+from rlbench.tasks.stack_blocks_peract import StackBlocksPeract
+from rlbench.tasks.light_bulb_in_peract import LightBulbInPeract
+from rlbench.tasks.put_money_in_safe_peract import PutMoneyInSafePeract
+from rlbench.tasks.put_groceries_in_cupboard_peract import PutGroceriesInCupboardPeract
+from rlbench.tasks.place_shape_in_shape_sorter_peract import PlaceShapeInShapeSorterPeract
+from rlbench.tasks.push_buttons_peract import PushButtonsPeract
+from rlbench.tasks.insert_onto_square_peg_peract import InsertOntoSquarePegPeract
+from rlbench.tasks.stack_cups_peract import StackCupsPeract
+from rlbench.tasks.place_cups_peract import PlaceCupsPeract
+
+
 FS10_V1 = {
     'train': [
         ReachTarget,
