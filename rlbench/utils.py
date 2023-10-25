@@ -285,27 +285,27 @@ def get_stored_demos(amount: int, image_paths: bool, dataset_root: str,
                     obs[i].left_shoulder_mask = rgb_handles_to_mask(
                         np.array(_resize_if_needed(Image.open(
                             obs[i].left_shoulder_mask),
-                            obs_config.left_shoulder_camera.image_size)))
+                            obs_config.left_shoulder_camera.image_size))/255.0).astype(np.uint16)
                 if obs_config.right_shoulder_camera.mask:
                     obs[i].right_shoulder_mask = rgb_handles_to_mask(
                         np.array(_resize_if_needed(Image.open(
                             obs[i].right_shoulder_mask),
-                            obs_config.right_shoulder_camera.image_size)))
+                            obs_config.right_shoulder_camera.image_size))/255.0).astype(np.uint16)
                 if obs_config.overhead_camera.mask:
                     obs[i].overhead_mask = rgb_handles_to_mask(
                         np.array(_resize_if_needed(Image.open(
                             obs[i].overhead_mask),
-                            obs_config.overhead_camera.image_size)))
+                            obs_config.overhead_camera.image_size))/255.0).astype(np.uint16)
                 if obs_config.wrist_camera.mask:
                     obs[i].wrist_mask = rgb_handles_to_mask(np.array(
                         _resize_if_needed(Image.open(
                             obs[i].wrist_mask),
-                            obs_config.wrist_camera.image_size)))
+                            obs_config.wrist_camera.image_size))/255.0).astype(np.uint16)
                 if obs_config.front_camera.mask:
                     obs[i].front_mask = rgb_handles_to_mask(np.array(
                         _resize_if_needed(Image.open(
                             obs[i].front_mask),
-                            obs_config.front_camera.image_size)))
+                            obs_config.front_camera.image_size))/255.0).astype(np.uint16)
 
         demos.append(obs)
     return demos
