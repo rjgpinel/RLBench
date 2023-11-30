@@ -285,7 +285,8 @@ class Scene(object):
             joint_forces=(joint_forces
                           if self._obs_config.joint_forces else None),
             gripper_open=(
-                (1.0 if self.robot.gripper.get_open_amount()[0] > 0.95 else 0.0)  # Changed from 0.9 to 0.95 because objects, the gripper does not close completely
+                (1.0 if self.robot.gripper.get_open_amount()[0] > self.task.gripper_open_threshold else 0.0)
+
                 if self._obs_config.gripper_open else None),
             gripper_pose=(
                 np.array(tip.get_pose())
@@ -336,6 +337,12 @@ class Scene(object):
         if record:
             self.pyrep.step()  # Need this here or get_force doesn't work...
             demo.append(self.get_observation())
+
+        # Record keyframe actions for visualization
+        keyframe_actions = np.stack([w._waypoint.get_matrix() for w in waypoints])
+        if callable_each_step is not None:
+            callable_each_step(self.get_observation(), keyframe_actions=keyframe_actions)
+
         while True:
             success = False
             for i, point in enumerate(waypoints):
