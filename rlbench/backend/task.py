@@ -19,11 +19,10 @@ from rlbench.backend.observation import Observation
 from rlbench.backend.robot import Robot
 from rlbench.backend.waypoints import Point, PredefinedPath, Waypoint
 
-TASKS_PATH = join(dirname(abspath(__file__)), '../tasks')
+TASKS_PATH = join(dirname(abspath(__file__)), "../tasks")
 
 
 class Task(object):
-
     def __init__(self, pyrep: PyRep, robot: Robot, name: str = None):
         """Constructor.
 
@@ -31,8 +30,11 @@ class Task(object):
         :param robot: Instance of Robot.
         """
         self.pyrep = pyrep
-        self.name = name if name else re.sub(
-            '(?<!^)(?=[A-Z])', '_', self.__class__.__name__).lower()
+        self.name = (
+            name
+            if name
+            else re.sub("(?<!^)(?=[A-Z])", "_", self.__class__.__name__).lower()
+        )
         self.robot = robot
         self._waypoints = None
         self._success_conditions = []
@@ -58,8 +60,7 @@ class Task(object):
         set success conditions for the task as well as register what objects
         can be grasped.
         """
-        raise NotImplementedError(
-            "'init_task' is almost always necessary.")
+        raise NotImplementedError("'init_task' is almost always necessary.")
 
     def init_episode(self, index: int) -> List[str]:
         """Initialises the episode. Called each time the scene is reset.
@@ -71,7 +72,8 @@ class Task(object):
         :return: A list of strings describing the task.
         """
         raise NotImplementedError(
-            "'init_episode' must be defined and return a list of strings.")
+            "'init_episode' must be defined and return a list of strings."
+        )
 
     def variation_count(self) -> int:
         """Number of variations for the task. Can be determined dynamically.
@@ -79,7 +81,8 @@ class Task(object):
         :return: Number of variations for this task.
         """
         raise NotImplementedError(
-            "'variation_count' must be defined and return an int.")
+            "'variation_count' must be defined and return an int."
+        )
 
     def get_low_dim_state(self) -> np.ndarray:
         """Gets the pose and various other properties of objects in the task.
@@ -126,8 +129,9 @@ class Task(object):
         """
         pass
 
-    def base_rotation_bounds(self) -> Tuple[Tuple[float, float, float],
-                                            Tuple[float, float, float]]:
+    def base_rotation_bounds(
+        self,
+    ) -> Tuple[Tuple[float, float, float], Tuple[float, float, float]]:
         """Defines how much the task base can rotate during episode placement.
 
         Default is set such that it can rotate any amount on the z axis.
@@ -168,10 +172,10 @@ class Task(object):
 
     def set_initial_objects_in_scene(self):
         objs = self.get_base().get_objects_in_tree(
-            exclude_base=True, first_generation_only=False)
+            exclude_base=True, first_generation_only=False
+        )
         types = [ob.get_type() for ob in objs]
         self._initial_objs_in_scene = list(zip(objs, types))
-
 
     #########################
     # Registering functions #
@@ -212,8 +216,9 @@ class Task(object):
         """
         self._graspable_objects = objects
 
-    def register_waypoint_ability_start(self, waypoint_index: int,
-                                        func: Callable[[Waypoint], None]):
+    def register_waypoint_ability_start(
+        self, waypoint_index: int, func: Callable[[Waypoint], None]
+    ):
         """Register a function to be called before moving to waypoint.
 
         The registered function should take in a Waypoint object and is called
@@ -225,8 +230,9 @@ class Task(object):
         """
         self._waypoint_abilities_start[waypoint_index] = func
 
-    def register_waypoint_ability_end(self, waypoint_index: int,
-                                        func: Callable[[Waypoint], None]):
+    def register_waypoint_ability_end(
+        self, waypoint_index: int, func: Callable[[Waypoint], None]
+    ):
         """Register a function to be called after moving to waypoint.
 
         The registered function should take in a Waypoint object and is called
@@ -270,7 +276,7 @@ class Task(object):
         return self.name
 
     def validate(self):
-        """If the task placement is valid. """
+        """If the task placement is valid."""
         self._waypoints = self._get_waypoints()
 
     def get_waypoints(self):
@@ -291,11 +297,11 @@ class Task(object):
             second specifies if the task should terminate (either from success or from broken constraints).
         """
         all_fails_met = np.all(
-            [cond.condition_met()[0] for cond in self._fail_conditions])
+            [cond.condition_met()[0] for cond in self._fail_conditions]
+        )
         if len(self._fail_conditions) > 0 and all_fails_met:
             return False, True
-        all_met = np.all(
-            [cond.condition_met()[0] for cond in self._success_conditions])
+        all_met = np.all([cond.condition_met()[0] for cond in self._success_conditions])
         should_terminate = all_met
         return all_met, should_terminate
 
@@ -304,10 +310,12 @@ class Task(object):
             return Dummy(self.name)
         ttm_file = os.path.join(
             os.path.dirname(os.path.abspath(__file__)),
-            '../task_ttms/%s.ttm' % self.name)
+            "../task_ttms/%s.ttm" % self.name,
+        )
         if not os.path.isfile(ttm_file):
             raise FileNotFoundError(
-                'The following is not a valid task .ttm file: %s' % ttm_file)
+                "The following is not a valid task .ttm file: %s" % ttm_file
+            )
         self._base_object = self.pyrep.import_model(ttm_file)
         return self._base_object
 
@@ -343,8 +351,9 @@ class Task(object):
         objs = self.get_base().get_objects_in_tree(exclude_base=False)
         if len(objs) != state[1]:
             raise RuntimeError(
-                'Expected to be resetting %d objects, but there were %d.' %
-                (state[1], len(objs)))
+                "Expected to be resetting %d objects, but there were %d."
+                % (state[1], len(objs))
+            )
         self.pyrep.set_configuration_tree(state[0])
 
     #####################
@@ -369,7 +378,7 @@ class Task(object):
         return True, -1
 
     def _get_waypoints(self, validating=False) -> List[Waypoint]:
-        waypoint_name = 'waypoint%d'
+        waypoint_name = "waypoint%d"
         waypoints = []
         additional_waypoint_inits = []
         i = 0
@@ -388,20 +397,24 @@ class Task(object):
                     start_func = self._waypoint_abilities_start[i]
                 if i in self._waypoint_abilities_end:
                     end_func = self._waypoint_abilities_end[i]
-                way = Point(waypoint, self.robot,
-                            start_of_path_func=start_func,
-                            end_of_path_func=end_func)
+                way = Point(
+                    waypoint,
+                    self.robot,
+                    start_of_path_func=start_func,
+                    end_of_path_func=end_func,
+                )
             elif ob_type == ObjectType.PATH:
                 cartestian_path = CartesianPath(name)
                 way = PredefinedPath(cartestian_path, self.robot)
             else:
                 raise WaypointError(
-                    '%s is an unsupported waypoint type %s' % (
-                        name, ob_type), self)
+                    "%s is an unsupported waypoint type %s" % (name, ob_type), self
+                )
 
             if name in self._waypoint_additional_inits and not validating:
                 additional_waypoint_inits.append(
-                    (self._waypoint_additional_inits[name], way))
+                    (self._waypoint_additional_inits[name], way)
+                )
             waypoints.append(way)
             i += 1
 
@@ -409,7 +422,12 @@ class Task(object):
         feasible, way_i = self._feasible(waypoints)
         if not feasible:
             raise WaypointError(
-                "Infeasible episode. Can't reach waypoint %d." % way_i, self)
+                "Infeasible episode. Can't reach waypoint %d." % way_i, self
+            )
         for func, way in additional_waypoint_inits:
             func(way)
         return waypoints
+
+    @property
+    def gripper_open_threshold(self):
+        return 0.9
