@@ -115,7 +115,7 @@ class TaskEnvironment(object):
                   callable_each_step: Callable[[Observation], None] = None,
                   max_attempts: int = _MAX_DEMO_ATTEMPTS,
                   random_selection: bool = True,
-                  from_episode_number: int = 0
+                  from_episode_number: int = 0, run_loaded_demo=False
                   ) -> List[Demo]:
         """Negative means all demos"""
 
@@ -124,6 +124,7 @@ class TaskEnvironment(object):
             raise RuntimeError(
                 "Can't ask for a stored demo when no dataset root provided.")
 
+        loaded_demos = None
         if not live_demos:
             if self._dataset_root is None or len(self._dataset_root) == 0:
                 raise RuntimeError(
@@ -131,25 +132,30 @@ class TaskEnvironment(object):
             demos = utils.get_stored_demos(
                 amount, image_paths, self._dataset_root, self._variation_number,
                 self._task.get_name(), self._obs_config,
-                random_selection, from_episode_number)
-        else:
+                random_selection, from_episode_number) 
+            loaded_demos = demos
+        if run_loaded_demo or live_demos:
             ctr_loop = self._robot.arm.joints[0].is_control_loop_enabled()
             self._robot.arm.set_control_loop_enabled(True)
             demos = self._get_live_demos(
-                amount, callable_each_step, max_attempts)
+                amount, callable_each_step, max_attempts, loaded_demos=loaded_demos)
             self._robot.arm.set_control_loop_enabled(ctr_loop)
         return demos
 
     def _get_live_demos(self, amount: int,
                         callable_each_step: Callable[
                             [Observation], None] = None,
-                        max_attempts: int = _MAX_DEMO_ATTEMPTS) -> List[Demo]:
+                        max_attempts: int = _MAX_DEMO_ATTEMPTS, loaded_demos=None) -> List[Demo]:
         demos = []
         for i in range(amount):
             attempts = max_attempts
             while attempts > 0:
-                random_seed = np.random.get_state()
-                self.reset()
+                if loaded_demos is None:
+                    random_seed = np.random.get_state()
+                    self.reset()
+                else:
+                    loaded_demo = loaded_demos[i]
+                    self.reset_to_demo(loaded_demo)
                 try:
                     demo = self._scene.get_demo(
                         callable_each_step=callable_each_step)
