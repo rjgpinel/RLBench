@@ -156,6 +156,7 @@ class TaskEnvironment(object):
                 else:
                     loaded_demo = loaded_demos[i]
                     self.reset_to_demo(loaded_demo)
+                    random_seed = loaded_demo.random_seed
                 try:
                     demo = self._scene.get_demo(
                         callable_each_step=callable_each_step)
