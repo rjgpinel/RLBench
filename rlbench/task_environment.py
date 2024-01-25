@@ -115,7 +115,7 @@ class TaskEnvironment(object):
                   callable_each_step: Callable[[Observation], None] = None,
                   max_attempts: int = _MAX_DEMO_ATTEMPTS,
                   random_selection: bool = True,
-                  from_episode_number: int = 0, run_loaded_demo=False
+                  from_episode_number: int = 0, run_loaded_demo=False, load_images=True
                   ) -> List[Demo]:
         """Negative means all demos"""
 
@@ -132,7 +132,7 @@ class TaskEnvironment(object):
             demos = utils.get_stored_demos(
                 amount, image_paths, self._dataset_root, self._variation_number,
                 self._task.get_name(), self._obs_config,
-                random_selection, from_episode_number) 
+                random_selection, from_episode_number, load_images=load_images) 
             loaded_demos = demos
         if run_loaded_demo or live_demos:
             ctr_loop = self._robot.arm.joints[0].is_control_loop_enabled()
