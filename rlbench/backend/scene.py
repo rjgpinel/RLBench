@@ -346,6 +346,7 @@ class Scene(object):
         while True:
             success = False
             for i, point in enumerate(waypoints):
+                print(i)
                 point.start_of_path()
                 if point.skip:
                     continue
