@@ -318,7 +318,7 @@ class Scene(object):
 
     def get_demo(self, record: bool = True,
                  callable_each_step: Callable[[Observation], None] = None,
-                 randomly_place: bool = True) -> Demo:
+                 randomly_place: bool = True, max_len: int=None) -> Demo:
         """Returns a demo (list of observations)"""
 
         if not self._has_init_task:
@@ -346,7 +346,6 @@ class Scene(object):
         while True:
             success = False
             for i, point in enumerate(waypoints):
-                print(i)
                 point.start_of_path()
                 if point.skip:
                     continue
@@ -427,7 +426,7 @@ class Scene(object):
 
                     self._demo_record_step(demo, record, callable_each_step)
 
-            if not self.task.should_repeat_waypoints() or success:
+            if not self.task.should_repeat_waypoints() or success or (max_len is not None and len(demo) > max_len):
                 break
 
         # Some tasks may need additional physics steps
