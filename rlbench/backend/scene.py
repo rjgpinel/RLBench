@@ -427,6 +427,9 @@ class Scene(object):
                     self._demo_record_step(demo, record, callable_each_step)
 
             if not self.task.should_repeat_waypoints() or success or (max_len is not None and len(demo) > max_len):
+                if max_len is not None and len(demo) > max_len:
+                    del demo
+                    demo = []
                 break
 
         # Some tasks may need additional physics steps
