@@ -549,4 +549,10 @@ class Scene(object):
         misc.update(_get_cam_data(self._cam_overhead, 'overhead_camera'))
         misc.update(_get_cam_data(self._cam_front, 'front_camera'))
         misc.update(_get_cam_data(self._cam_wrist, 'wrist_camera'))
+        links_info = {}
+        for robot_shape in self._robot_shapes:
+            shape_name = robot_shape.get_name()
+            links_info[f"{shape_name}_bbox"] = robot_shape.get_bounding_box()
+            links_info[f"{shape_name}_pose"] = robot_shape.get_pose()
+        misc.update(links_info)
         return misc
