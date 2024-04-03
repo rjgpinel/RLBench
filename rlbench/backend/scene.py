@@ -552,6 +552,7 @@ class Scene(object):
         links_info = {}
         for robot_shape in self._robot_shapes:
             shape_name = robot_shape.get_name()
+            # min x, max x, min y, max y, min z, max z positions
             links_info[f"{shape_name}_bbox"] = robot_shape.get_bounding_box()
             links_info[f"{shape_name}_pose"] = robot_shape.get_pose()
         misc.update(links_info)
