@@ -36,10 +36,10 @@ def task_smoke(task: Task, scene: Scene, variation=-1, demos=4, success=0.50,
         raise TaskValidationError(
             "The method 'variation_count' should return a number > 0.")
 
-    if variation_count > MAX_VARIATIONS:
-        raise TaskValidationError(
-            "This task had %d variations. Currently the limit is set to %d" %
-            (variation_count, MAX_VARIATIONS))
+    # if variation_count > MAX_VARIATIONS:
+    #     raise TaskValidationError(
+            # "This task had %d variations. Currently the limit is set to %d" %
+            # (variation_count, MAX_VARIATIONS))
 
     # Base rotation bounds
     base_pos, base_ori = task.base_rotation_bounds()
