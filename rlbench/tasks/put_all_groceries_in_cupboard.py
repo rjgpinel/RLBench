@@ -9,13 +9,13 @@ from rlbench.backend.conditions import DetectedCondition, NothingGrasped, \
 from rlbench.backend.spawn_boundary import SpawnBoundary
 
 GROCERY_NAMES = [
-    'crackers',
-    'chocolate jello',
-    'strawberry jello',
-    'soup',
-    'spam',
-    'mustard',
-    'sugar',
+    'crackers box',
+    'chocolate jello box',
+    'strawberry jello box',
+    'soup can',
+    'spam can',
+    'mustard bottle',
+    'sugar box',
 ]
 
 
