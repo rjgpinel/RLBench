@@ -45,10 +45,10 @@ class PickAndLiftToy(Task):
         for block in [self.target_block] + self.distractors:
             self.boundary.sample(block, min_distance=0.1)
 
-        return ['pick up the %s block and lift it up to the target' %
+        return ['pick up the %s rubber duck and lift it up to the target' %
                 block_color_name,
-                'grasp the %s block to the target' % block_color_name,
-                'lift the %s block up to the target' % block_color_name]
+                'grasp the %s rubber duck to the target' % block_color_name,
+                'lift the %s rubber duck up to the target' % block_color_name]
 
     def variation_count(self) -> int:
         return len(colors)

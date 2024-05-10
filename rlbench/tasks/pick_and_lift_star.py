@@ -45,10 +45,10 @@ class PickAndLiftStar(Task):
         for block in [self.target_block] + self.distractors:
             self.boundary.sample(block, min_distance=0.1, min_rotation=(-3.14, 0, 0), max_rotation=(3.14, 0, 0))
 
-        return ['pick up the %s block and lift it up to the target' %
+        return ['pick up the %s star and lift it up to the target' %
                 block_color_name,
-                'grasp the %s block to the target' % block_color_name,
-                'lift the %s block up to the target' % block_color_name]
+                'grasp the %s star to the target' % block_color_name,
+                'lift the %s star up to the target' % block_color_name]
 
     def variation_count(self) -> int:
         return len(colors)
