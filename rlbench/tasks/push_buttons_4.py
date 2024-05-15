@@ -43,8 +43,20 @@ def print_permutations(color_permutations):
     print('num permutations: ', str(len(color_permutations)))
     print('color_permutations:\n')
     for i in range(len(color_permutations)):
-        print(str(color_permutations[i]))
+        print(str(color_permutations[int(i / MAX_TARGET_BUTTONS]))
         if ((i + 1) % 15 == 0): print('')
+
+
+def save_permutations(color_permutations):
+    import json 
+    perm = {}
+    for i in range(len(color_permutations)):
+        colors = []
+        for j in range(1 + i % 4):
+            colors.append(color_permutations[int(i / MAX_TARGET_BUTTONS)][j][0])
+        perm[i] = ",".join(colors)
+    with open("/home/rgarciap/push_buttons_4.json", "w") as outfile: 
+        json.dump(perm, outfile)
 
 
 class PushButtons4(Task):
