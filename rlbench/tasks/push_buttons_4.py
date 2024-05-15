@@ -43,7 +43,7 @@ def print_permutations(color_permutations):
     print('num permutations: ', str(len(color_permutations)))
     print('color_permutations:\n')
     for i in range(len(color_permutations)):
-        print(str(color_permutations[int(i / MAX_TARGET_BUTTONS]))
+        print(str(color_permutations[int(i / MAX_TARGET_BUTTONS)]))
         if ((i + 1) % 15 == 0): print('')
 
 
