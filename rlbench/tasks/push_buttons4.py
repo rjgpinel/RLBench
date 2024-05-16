@@ -59,6 +59,12 @@ def save_permutations(color_permutations):
         json.dump(perm, outfile)
 
 
+color_options = [[('white', (1.0, 1.0, 1.0))],
+                 [('navy', (0.0, 0.0, 0.5)), ('teal', (0, 0.5, 0.5))],
+                 [('green', (0.0, 0.5, 0.0)), ('yellow', (1.0, 1.0, 0.0)), ('rose', (1.0, 0.0, 0.5))],
+                 [('maroon', (0.5, 0.0, 0.0)), ('blue', (0.0, 0.0, 1.0)), ('orange', (1.0, 0.5, 0.0)), ('magenta', (1.0, 0.0, 1.0))]]
+
+
 class PushButtons4(Task):
 
     def init_task(self) -> None:
@@ -87,21 +93,35 @@ class PushButtons4(Task):
         for w in self.target_wraps:
             w.set_color([1.0, 0.0, 0.0])
         # For each color permutation, we want to have 1, 2, 3 or 4 buttons pushed
-        color_index = int(index / MAX_TARGET_BUTTONS)
-        self.buttons_to_push = 1 + index % MAX_TARGET_BUTTONS
-        button_colors = color_permutations[color_index]
+        # color_index = int(index / MAX_TARGET_BUTTONS)
+        # self.buttons_to_push = 1 + index % MAX_TARGET_BUTTONS
+        # button_colors = color_permutations[color_index]
+
+        # self.color_names = []
+        # self.color_rgbs = []
+        # self.chosen_colors = []
+        # i = 0
+        # for b in self.target_buttons:
+        #     color_name, color_rgb = button_colors[i]
+        #     self.color_names.append(color_name)
+        #     self.color_rgbs.append(color_rgb)
+        #     self.chosen_colors.append((color_name, color_rgb))
+        #     b.set_color(color_rgb)
+        #     i += 1
+
+        button_colors = color_options[index]
+        self.buttons_to_push = len(button_colors)
 
         self.color_names = []
         self.color_rgbs = []
         self.chosen_colors = []
-        i = 0
-        for b in self.target_buttons:
+        for i in range(self.buttons_to_push):
+            b = self.target_buttons[i]
             color_name, color_rgb = button_colors[i]
             self.color_names.append(color_name)
             self.color_rgbs.append(color_rgb)
             self.chosen_colors.append((color_name, color_rgb))
             b.set_color(color_rgb)
-            i += 1
 
         # for task success, all button to push must have green color RGB
         self.success_conditions = []
@@ -151,7 +171,8 @@ class PushButtons4(Task):
         return [rtn0, rtn1, rtn2]
 
     def variation_count(self) -> int:
-        return len(color_permutations) * MAX_TARGET_BUTTONS
+        # return len(color_permutations) * MAX_TARGET_BUTTONS
+        return len(color_options)
 
     def step(self) -> None:
         for i in range(len(self.target_buttons)):
