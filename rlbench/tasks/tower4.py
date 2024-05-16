@@ -139,8 +139,6 @@ class Tower4(Task):
             f"Set {ordered_colors} cubes on top of each other.",
         ]
 
-        print(instructions)
-
         return instructions
 
     def variation_count(self) -> int:
