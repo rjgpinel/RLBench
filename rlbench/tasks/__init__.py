@@ -137,6 +137,30 @@ from rlbench.tasks.insert_onto_square_peg_peract import InsertOntoSquarePegPerac
 from rlbench.tasks.stack_cups_peract import StackCupsPeract
 from rlbench.tasks.place_cups_peract import PlaceCupsPeract
 
+# New tasks added on composer
+from rlbench.tasks.open_fridge2 import OpenFridge2
+from rlbench.tasks.open_laptop_lid import OpenLaptopLid
+from rlbench.tasks.open_microwave2 import OpenMicrowave2
+from rlbench.tasks.put_cube_in_safe import PutCubeInSafe
+from rlbench.tasks.close_fridge2 import CloseFridge2
+from rlbench.tasks.close_laptop_lid2 import CloseLaptopLid2
+from rlbench.tasks.close_microwave2 import CloseMicrowave2
+from rlbench.tasks.open_door2 import OpenDoor2
+from rlbench.tasks.open_box2 import OpenBox2
+from rlbench.tasks.open_drawer2 import OpenDrawer2
+from rlbench.tasks.open_drawer3 import OpenDrawer3
+from rlbench.tasks.open_drawer_long import OpenDrawerLong
+from rlbench.tasks.open_drawer_small import OpenDrawerSmall
+from rlbench.tasks.pick_and_lift_cylinder import PickAndLiftCylinder
+from rlbench.tasks.pick_and_lift_moon import PickAndLiftMoon
+from rlbench.tasks.pick_and_lift_star import PickAndLiftStar
+from rlbench.tasks.pick_and_lift_toy import PickAndLiftToy
+from rlbench.tasks.push_buttons4 import PushButtons4
+from rlbench.tasks.put_items_in_drawer import PutItemsInDrawer
+from rlbench.tasks.tower4 import Tower4
+
+
+
 
 FS10_V1 = {
     'train': [
