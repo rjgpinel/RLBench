@@ -27,7 +27,9 @@ class CloseDrawer(Task):
 
         return ['close %s drawer' % (option,),
                 'shut the %s drawer' % (option,),
-                'slide the %s drawer shut' % (option,)]
+                'slide the %s drawer shut' % (option,),
+                'press on the %s drawer until it is closed' % (option,),
+                'close of the %s drawer by pushing it shut' % (option,)]
 
     def variation_count(self) -> int:
         return 3

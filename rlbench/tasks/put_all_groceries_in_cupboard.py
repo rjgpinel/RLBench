@@ -53,7 +53,8 @@ class PutAllGroceriesInCupboard(Task):
                 'pick up all of the groceries and place them in the cupboard',
                 'move the groceries to the shelves',
                 'put the groceries on the table into the cupboard',
-                'put away the groceries in the cupboard']
+                'put away the groceries in the cupboard',
+                'put the crackers box, the chocolate jello box, strawberry jello box, soup can, spam can, mustard bottle and sugar box in the cupboard']
 
     def variation_count(self) -> int:
         return 1

@@ -21,7 +21,9 @@ class OpenDoor2(Task):
         self._door_joint.set_motor_locked_at_zero_velocity(True)
         return ['open the door',
                 'grip the handle and push the door open',
-                'use the handle to open the door']
+                'use the handle to open the door',
+                'grasp the handle firmly, twist it, and push to open the door',
+                'grab the handle, turn it, and push on it to open the door']
 
     def variation_count(self) -> int:
         return 1

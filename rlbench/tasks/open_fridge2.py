@@ -16,7 +16,9 @@ class OpenFridge2(Task):
     def init_episode(self, index: int) -> List[str]:
         return ['open fridge',
                 'grip the handle and slide the fridge door open',
-                'open the fridge door']
+                'open the fridge door',
+                'grab the fridge door handle and pull to open',
+                'pull the fridge door by the handle to open']
 
     def variation_count(self) -> int:
         return 1

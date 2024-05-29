@@ -17,7 +17,9 @@ class CloseGrill(Task):
         return ['close the grill',
                 'grasp the handle and lower the grill cover to close it',
                 'close the bbq',
-                'close the barbecue']
+                'close the barbecue',
+                'hold the handle and lower it to close the grill cover',
+                'lower the grill cover using the handle to close the bbq']
 
     def variation_count(self) -> int:
         return 1

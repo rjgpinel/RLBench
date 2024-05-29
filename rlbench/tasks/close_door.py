@@ -17,6 +17,8 @@ class CloseDoor(Task):
     def init_episode(self, index: int) -> List[str]:
         return ['close the door',
                 'shut the door',
+                'grasp the handle and pull the door towards you until it fully closes',
+                'close the door by pulling the handle until it engages the latch',
                 'grip the handle and pull the door shut',
                 'use the handle to move the door closed']
 
