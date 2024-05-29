@@ -139,6 +139,15 @@ class Tower4(Task):
             f"Set {ordered_colors} cubes on top of each other.",
         ]
 
+        detailed_instruction = f'pick the {color_names[0]} cube and put it on the green marker, '
+
+        for i in range(len(color_names[:-2])):
+            detailed_instruction += f'then stack the {color_names[i+1]} block on top of the {color_names[i]}, '
+
+        detailed_instruction += f'finally stack the {color_names[-1]} block on top of the stacked cubes'
+
+        instructions += [detailed_instruction]
+
         return instructions
 
     def variation_count(self) -> int:

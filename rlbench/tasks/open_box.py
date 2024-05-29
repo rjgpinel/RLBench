@@ -15,7 +15,10 @@ class OpenBox(Task):
         return ['open box',
                 'open the box lid',
                 'open the box',
-                'grasp the lid and open the box']
+                'grasp the lid and open the box',
+                'turn the attached lid to open the box',
+                'twist the lid to open the box',
+                'pull the lid to open the box']
 
     def variation_count(self):
         return 1

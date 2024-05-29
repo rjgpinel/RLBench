@@ -25,7 +25,9 @@ class TakeShoesOutOfBox(Task):
                 'pick up the shoes from the box and put them down',
                 'grasp the edge of the box lid to open it, then grasp each shoe'
                 ', lifting up out of the shoe box and leaving them down on the '
-                'table']
+                'table',
+                'open the shoe box, take the shoes out and put them in front of the box',
+                'put the shoes found inside the box on the part of the table in front of the shoe box']
 
     def variation_count(self) -> int:
         return 1

@@ -21,7 +21,9 @@ class LampOn(Task):
                 'press the light switch',
                 'turn the lamp on',
                 'close the gripper and press on the button until the light '
-                'turns on']
+                'turns on',
+                'turn on the light by tapping the button next to the lamp',
+                'press the green button connected to the lamp to turn the light on']
 
     def variation_count(self) -> int:
         return 1

@@ -16,7 +16,10 @@ class OpenMicrowave(Task):
     def init_episode(self, index: int) -> List[str]:
         return ['open microwave',
                 'open the microwave door',
-                'pull the microwave door open']
+                'pull the microwave door open',
+                'use the microwave door handle to swing the microwave door open',
+                'pull the microwave door by the handle to open',
+                'grip the handle and pull the microwave door open']
 
     def variation_count(self) -> int:
         return 1

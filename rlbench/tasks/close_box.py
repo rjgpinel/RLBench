@@ -15,7 +15,10 @@ class CloseBox(Task):
         return ['close box',
                 'close the lid on the box',
                 'shut the box',
-                'shut the box lid']
+                'shut the box lid',
+                'lower the lid onto the box until it is closed',
+                'rotate the attached lid until the box is closed and sealed',
+                'turn the lid on the box until it locks into place']
 
     def variation_count(self) -> int:
         return 1
