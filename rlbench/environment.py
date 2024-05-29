@@ -152,13 +152,15 @@ class Environment(object):
                   variation_number=0,
                   image_paths=False,
                   random_selection: bool = True,
-                  from_episode_number: int = 0) -> List[Demo]:
+                  from_episode_number: int = 0,
+                  load_images=True) -> List[Demo]:
         if self._dataset_root is None or len(self._dataset_root) == 0:
             raise RuntimeError(
                 "Can't ask for a stored demo when no dataset root provided.")
         demos = utils.get_stored_demos(
             amount, image_paths, self._dataset_root, variation_number,
-            task_name, self._obs_config, random_selection, from_episode_number)
+            task_name, self._obs_config, random_selection, from_episode_number,
+            load_images=load_images)
         return demos
 
     def get_scene_data(self) -> dict:
