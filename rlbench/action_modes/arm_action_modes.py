@@ -221,7 +221,7 @@ class EndEffectorPoseViaPlanning(ArmActionMode):
     def set_callable_each_step(self, callable_each_step):
         self._callable_each_step = callable_each_step
 
-    def action(self, scene: Scene, action: np.ndarray):
+    def action(self, scene: Scene, action: np.ndarray, ignore_collisions: bool = True):
         assert_action_shape(action, (7,))
         assert_unit_quaternion(action[3:])
         if not self._absolute_mode and self._frame != 'end effector':
@@ -230,7 +230,7 @@ class EndEffectorPoseViaPlanning(ArmActionMode):
         self._quick_boundary_check(scene, action)
 
         colliding_shapes = []
-        if self._collision_checking:
+        if not ignore_collisions:
             if self._robot_shapes is None:
                 self._robot_shapes = scene.robot.arm.get_objects_in_tree(
                     object_type=ObjectType.SHAPE)
@@ -241,7 +241,7 @@ class EndEffectorPoseViaPlanning(ArmActionMode):
                 grasped_objects = scene.robot.gripper.get_grasped_objects()
                 colliding_shapes = [
                     s for s in scene.pyrep.get_objects_in_tree(
-                        object_type=ObjectType.SHAPE) if (
+                        object_type = ObjectType.SHAPE) if (
                             s.is_collidable() and
                             s not in self._robot_shapes and
                             s not in grasped_objects and
@@ -250,26 +250,12 @@ class EndEffectorPoseViaPlanning(ArmActionMode):
                 [s.set_collidable(False) for s in colliding_shapes]
 
         try:
-            path = scene.robot.arm.get_path(
-                action[:3],
-                quaternion=action[3:],
-                ignore_collisions=not self._collision_checking,
-                relative_to=relative_to,
-                trials=100,
-                max_configs=10,
-                max_time_ms=10,
-                trials_per_goal=5,
-                algorithm=Algos.RRTConnect
-            )
-            [s.set_collidable(True) for s in colliding_shapes]
-        except ConfigurationPathError as e:
-            print("Could not find a path avoiding collisions, "
-                  "trying to find one ignoring collisions.")
+            # try once with collision checking (if ignore_collisions is true)
             try:
                 path = scene.robot.arm.get_path(
                     action[:3],
                     quaternion=action[3:],
-                    ignore_collisions=True,
+                    ignore_collisions=ignore_collisions,
                     relative_to=relative_to,
                     trials=100,
                     max_configs=10,
@@ -277,26 +263,35 @@ class EndEffectorPoseViaPlanning(ArmActionMode):
                     trials_per_goal=5,
                     algorithm=Algos.RRTConnect
                 )
-                [s.set_collidable(True) for s in colliding_shapes]
             except ConfigurationPathError as e:
-                [s.set_collidable(True) for s in colliding_shapes]
-                raise InvalidActionError(
-                    'A path could not be found. Most likely due to the target '
-                    'being inaccessible or a collison was detected.') from e
-        observations = []
-
+                if ignore_collisions:
+                    raise InvalidActionError(
+                        'A path could not be found. Most likely due to the target '
+                        'being inaccessible or a collison was detected.') from e
+                else:
+                    # try once more with collision checking disabled
+                    path = scene.robot.arm.get_path(
+                        action[:3],
+                        quaternion=action[3:],
+                        ignore_collisions=True,
+                        relative_to=relative_to,
+                        trials=100,
+                        max_configs=10,
+                        max_time_ms=10,
+                        trials_per_goal=5,
+                        algorithm=Algos.RRTConnect
+                    )
+        except ConfigurationPathError as e:
+            raise InvalidActionError(
+                'A path could not be found. Most likely due to the target '
+                'being inaccessible or a collison was detected.') from e
         done = False
         while not done:
             done = path.step()
             scene.step()
-
             if self._callable_each_step is not None:
                 # Record observations
                 self._callable_each_step(scene.get_observation())
-
-            # DEBUG
-            # observations.append(scene.get_observation())
-
             success, terminate = scene.task.success()
             # If the task succeeds while traversing path, then break early
             if success and self._callable_each_step is None:

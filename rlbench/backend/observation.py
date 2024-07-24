@@ -34,6 +34,7 @@ class Observation(object):
                  gripper_joint_positions: np.ndarray,
                  gripper_touch_forces: np.ndarray,
                  task_low_dim_state: np.ndarray,
+                 ignore_collisions: np.ndarray,
                  misc: dict):
         self.left_shoulder_rgb = left_shoulder_rgb
         self.left_shoulder_depth = left_shoulder_depth
@@ -64,6 +65,7 @@ class Observation(object):
         self.gripper_joint_positions = gripper_joint_positions
         self.gripper_touch_forces = gripper_touch_forces
         self.task_low_dim_state = task_low_dim_state
+        self.ignore_collisions = ignore_collisions
         self.misc = misc
 
     def get_low_dim_data(self) -> np.ndarray:

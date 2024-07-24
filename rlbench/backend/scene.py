@@ -59,6 +59,8 @@ class Scene(object):
 
         self._initial_robot_state = (robot.arm.get_configuration_tree(),
                                      robot.gripper.get_configuration_tree())
+        
+        self._ignore_collisions_for_current_waypoint = False
 
         # Set camera properties from observation config
         self._set_camera_properties()
@@ -303,6 +305,9 @@ class Scene(object):
             task_low_dim_state=(
                 self.task.get_low_dim_state() if
                 self._obs_config.task_low_dim_state else None),
+            ignore_collisions=(
+                np.array((1.0 if self._ignore_collisions_for_current_waypoint else 0.0))
+                if self._obs_config.record_ignore_collisions else None),
             misc=self._get_misc())
         obs = self.task.decorate_observation(obs)
         return obs
@@ -345,7 +350,9 @@ class Scene(object):
 
         while True:
             success = False
+            self._ignore_collisions_for_current_waypoint = False
             for i, point in enumerate(waypoints):
+                self._ignore_collisions_for_current_waypoint = point._ignore_collisions
                 point.start_of_path()
                 if point.skip:
                     continue
