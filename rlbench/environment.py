@@ -1,4 +1,5 @@
 import importlib
+import pickle
 from os.path import exists, dirname, abspath, join
 from typing import Type, List
 
@@ -160,6 +161,20 @@ class Environment(object):
             amount, image_paths, self._dataset_root, variation_number,
             task_name, self._obs_config, random_selection, from_episode_number)
         return demos
+    
+    def get_task_descriptions_with_episode(self, task_name: str,
+                                           variation_number: int,
+                                           episode_number: int) -> List[str]:
+        episode_description_pkl_file = join(self._dataset_root,
+                                            f'{task_name}',
+                                            VARIATIONS_FOLDER % variation_number,
+                                            EPISODES_FOLDER,
+                                            EPISODE_FOLDER % episode_number,
+                                            VARIATION_DESCRIPTIONS)
+        with open(episode_description_pkl_file, 'rb') as f:
+            episode_description = pickle.load(f)
+
+        return episode_description
 
     def get_scene_data(self) -> dict:
         """Get the data of various scene/camera information.

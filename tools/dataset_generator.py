@@ -286,6 +286,14 @@ def run(i, lock, task_index, variation_count, results, file_lock, tasks):
                 episode_path = os.path.join(episodes_path, EPISODE_FOLDER % ex_idx)
                 with file_lock:
                     save_demo(demo, episode_path)
+
+                    with open(os.path.join(
+                            episode_path, VARIATION_DESCRIPTIONS), 'wb') as f:
+                        pickle.dump(descriptions, f)
+
+                    with open(os.path.join(
+                            episode_path, VARIATION_NUMBER), 'wb') as f:
+                        pickle.dump(my_variation_count, f)
                 break
             if abort_variation:
                 break
