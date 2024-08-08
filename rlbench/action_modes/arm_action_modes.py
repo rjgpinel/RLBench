@@ -300,6 +300,13 @@ class EndEffectorPoseViaPlanning(ArmActionMode):
     def action_shape(self, scene: Scene) -> tuple:
         return 7,
 
+    def record_end(self, scene, steps=60, step_scene=True):
+        if self._callable_each_step is not None:
+            for _ in range(steps):
+                if step_scene:
+                    scene.step()
+                self._callable_each_step(scene.get_observation())
+
 
 class EndEffectorPoseViaIK(ArmActionMode):
     """High-level action where target pose is given and reached via IK.
