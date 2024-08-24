@@ -153,7 +153,7 @@ class Environment(object):
                   image_paths=False,
                   random_selection: bool = True,
                   from_episode_number: int = 0,
-                  load_images=True) -> List[Demo]:
+                  load_images: bool = True) -> List[Demo]:
         if self._dataset_root is None or len(self._dataset_root) == 0:
             raise RuntimeError(
                 "Can't ask for a stored demo when no dataset root provided.")
