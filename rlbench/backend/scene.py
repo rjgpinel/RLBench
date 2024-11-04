@@ -560,9 +560,8 @@ class Scene(object):
         misc.update(links_info)
         
         grasped_objects = self.task.robot.gripper.get_grasped_objects()
-        if grasped_objects:
-            grasped_object_info = {"grasped_object_name": [s.get_name() for s in grasped_objects], "grasped_object_handle": [s.get_handle() for s in grasped_objects]}
-            misc.update(grasped_object_info)
+        grasped_object_info = {"grasped_object_name": [s.get_name() for s in grasped_objects], "grasped_object_handle": [s.get_handle() for s in grasped_objects]}
+        misc.update(grasped_object_info)
         
         objects_in_collision_name = [s.get_name() for s in self.pyrep.get_objects_in_tree(object_type=ObjectType.SHAPE) if s not in grasped_objects and s not in self._robot_shapes and self.robot.gripper.check_collision(s)]
         objects_in_collision_handle = [s.get_handle() for s in self.pyrep.get_objects_in_tree(object_type=ObjectType.SHAPE) if s not in grasped_objects and s not in self._robot_shapes and self.robot.gripper.check_collision(s)]
