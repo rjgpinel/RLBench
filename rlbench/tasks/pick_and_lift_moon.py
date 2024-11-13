@@ -45,10 +45,10 @@ class PickAndLiftMoon(Task):
         for block in [self.target_block] + self.distractors:
             self.boundary.sample(block, min_distance=0.1, min_rotation=(-3.14, 0, 0), max_rotation=(3.14, 0, 0))
 
-        return ['pick up the %s moon and lift it up to the target' %
+        return ['pick up the %s crescent and lift it up to the target' %
                 block_color_name,
-                'grasp the %s moon to the target' % block_color_name,
-                'lift the %s moon up to the target' % block_color_name]
+                'grasp the %s crescent to the target' % block_color_name,
+                'lift the %s crescent up to the target' % block_color_name]
 
     def variation_count(self) -> int:
         return len(colors)
