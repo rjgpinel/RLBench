@@ -559,15 +559,12 @@ class Scene(object):
 
         misc.update(links_info)
         
-        grasped_objects = self.task.robot.gripper.get_grasped_objects()
-        grasped_object_info = {"grasped_object_name": [s.get_name() for s in grasped_objects], "grasped_object_handle": [s.get_handle() for s in grasped_objects]}
-        misc.update(grasped_object_info)
-        
-        objects_in_collision_name = [s.get_name() for s in self.pyrep.get_objects_in_tree(object_type=ObjectType.SHAPE) if s not in grasped_objects and s not in self._robot_shapes and self.robot.gripper.check_collision(s)]
-        objects_in_collision_handle = [s.get_handle() for s in self.pyrep.get_objects_in_tree(object_type=ObjectType.SHAPE) if s not in grasped_objects and s not in self._robot_shapes and self.robot.gripper.check_collision(s)]
-        objects_in_collision_grasped_name = {obj.get_name(): [s.get_name() for s in self.pyrep.get_objects_in_tree(object_type=ObjectType.SHAPE) if s not in grasped_objects and s not in self._robot_shapes and obj.check_collision(s)] for obj in grasped_objects}
-        objects_in_collision_grasped_handle = {obj.get_name(): [s.get_handle() for s in self.pyrep.get_objects_in_tree(object_type=ObjectType.SHAPE) if s not in grasped_objects and s not in self._robot_shapes and obj.check_collision(s)] for obj in grasped_objects}
-        collision_info = {"obj_gripper_collision_name": objects_in_collision_name, "obj_gripper_collision_handle": objects_in_collision_handle , "obj_grasped_collision_name": objects_in_collision_grasped_name, "obj_grasped_collision_handle": objects_in_collision_grasped_handle}
-        misc.update(collision_info) 
+        objects_color = {}
+        objects_pose = {}
+        # Objects information
+        for obj in self.pyrep.get_objects_in_tree():
+            if obj.get_handle() > 80:
+                objects_color[obj.get_name()] = obj.get_color()
+                objects_pose[obj.get_name()] = obj.get_pose()
 
         return misc
