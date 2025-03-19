@@ -7,6 +7,7 @@ from pyrep.errors import ConfigurationPathError
 from pyrep.objects import Dummy
 from pyrep.objects.shape import Shape
 from pyrep.objects.vision_sensor import VisionSensor
+from pyrep.objects.proximity_sensor import ProximitySensor
 
 from rlbench.backend.exceptions import (
     WaypointError, BoundaryError, NoWaypointsError, DemoError)
@@ -563,7 +564,7 @@ class Scene(object):
         objects_pose = {}
         # Objects information
         for obj in self.pyrep.get_objects_in_tree():
-            if obj.get_handle() > 80:
+            if obj.get_handle() > 80 and isinstance(obj, Shape):
                 objects_color[obj.get_name()] = obj.get_color()
                 objects_pose[obj.get_name()] = obj.get_pose()
 
